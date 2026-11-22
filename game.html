@@ -2,10 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Jogo da Cobrinha</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { height: 100%; }
   body {
     background: #1a1a2e;
     color: #eee;
@@ -14,10 +15,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100dvh;
+    position: fixed;
+    inset: 0;
+    height: 100%;
     gap: 10px;
-    padding: 16px 12px;
+    padding: 10px 8px;
     overflow: hidden;
+    touch-action: none;
   }
   h1 { color: #4ade80; letter-spacing: 2px; font-size: clamp(1.1rem, 5.5vw, 1.8rem); }
   #hud {
@@ -34,7 +38,8 @@
     border-radius: 8px;
     box-shadow: 0 0 24px rgba(74, 222, 128, .25);
     touch-action: none;
-    width: min(92vw, 60dvh, 400px);
+    width: min(94vw, 64dvh, 400px);
+    width: min(94vw, 64svh, 420px);
     height: auto;
   }
   #overlay {
@@ -235,13 +240,13 @@ startBtn.addEventListener('click', () => {
 });
 
 let touchX = 0, touchY = 0;
-canvas.addEventListener('touchstart', e => {
+document.addEventListener('touchstart', e => {
   const t = e.touches[0];
   touchX = t.clientX;
   touchY = t.clientY;
 }, {passive: true});
-canvas.addEventListener('touchmove', e => e.preventDefault(), {passive: false});
-canvas.addEventListener('touchend', e => {
+document.addEventListener('touchmove', e => e.preventDefault(), {passive: false});
+document.addEventListener('touchend', e => {
   const t = e.changedTouches[0];
   const dx = t.clientX - touchX;
   const dy = t.clientY - touchY;
