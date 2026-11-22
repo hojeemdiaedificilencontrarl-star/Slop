@@ -235,7 +235,7 @@ else if(name==='win'){[0,4,7,12].forEach((n,i)=>tone(t+i*.09,note(72+n),.25,'tri
 else if(name==='click')tone(t,600,.05,'square',.12)}
 return{ensure,startSong,stopSong,sfx,beatPhase,applyVol,isPlaying:()=>playing}})();
 /* ================= INPUT ================= */
-const Input={held:false,taps:0,press(){AudioSys.ensure();this.held=true;this.taps++},release(){this.held=false}};
+const Input={held:false,taps:0,press(){AudioSys.ensure();if(this.held)return;this.held=true;this.taps++},release(){this.held=false}};
 /* ================= LEVEL BUILDER ================= */
 function lv(id,name,bpm,diff,pat,theme,fn){const obj=[],pits=[];const a={
 block:(x,y,w=1,h=1)=>obj.push({k:'block',x,y,w,h}),
@@ -680,10 +680,14 @@ const i=all.findIndex(l=>l.id===G.level.id);
 if(all[i+1]){showScreen(null);startLevel(all[i+1])}else{buildLevelList();showScreen('scSelect')}};
 /* input do jogo */
 (function bindInput(){
-const down=e=>{if(!G.running||paused)return;e.preventDefault();Input.press()};
+const down=e=>{if(!G.running||paused)return;
+if(e.target&&e.target.closest&&e.target.closest('#pauseBtn,#cpBtn'))return;
+e.preventDefault();Input.press()};
 const up=()=>{Input.release()};
-cv.addEventListener('pointerdown',down,{passive:false});
-addEventListener('pointerup',up, {passive:true});
+const surface=$('gameWrap');
+surface.addEventListener('pointerdown',down,{passive:false});
+surface.addEventListener('touchstart',e=>{if(!G.running||paused)return;e.preventDefault();Input.press()},{passive:false});
+addEventListener('pointerup',up,{passive:true});
 addEventListener('pointercancel',up,{passive:true});
 addEventListener('keydown',e=>{if(e.repeat)return;
 if(['Space','ArrowUp','KeyW'].includes(e.code)){if(G.running&&!paused){e.preventDefault();Input.press()}}
