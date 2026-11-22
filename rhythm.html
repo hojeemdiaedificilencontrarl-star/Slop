@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v14</title>
+<title>Rhythmic Precision v15</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +85,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v14</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v15</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -249,7 +249,9 @@ saw:(x,y,r=1.3)=>obj.push({k:'saw',x,y,r}),
 coin:(x,y)=>obj.push({k:'coin',x,y}),
 pit:(p,q)=>pits.push({a:p,b:q}),
 plat:(x,y,w=2,amp=1.5,sp=.8,ph=0)=>obj.push({k:'mplat',x,y,w,a:amp,sp,ph})};
-fn(a);let mx=0;for(const o of obj)mx=Math.max(mx,o.x+(o.w||1));
+fn(a);
+const T0=34;for(const o of obj)o.x+=T0;for(const p of pits){p.a+=T0;p.b+=T0}
+let mx=0;for(const o of obj)mx=Math.max(mx,o.x+(o.w||1));
 return{id,name,bpm,diff,pat,theme,obj,pits,len:mx+12}}
 /* ================= NÍVEIS ================= */
 const LEVELS=[
@@ -312,6 +314,9 @@ resetPlayer(null);G.mi=0;G.percent=0;G.winT=0;G.freeze=save.set.cd?2.6:0;
 save.stats.attempts++;persist();
 UI.showGame(true);UI.attempt(1);
 if(!G.freeze)AudioSys.startSong(level.bpm,level.pat);
+try{if(innerHeight>innerWidth&&document.documentElement.requestFullscreen){
+document.documentElement.requestFullscreen().then(()=>{const so=screen.orientation;
+if(so&&so.lock)return so.lock('landscape').catch(()=>{})}).catch(()=>{})}}catch(e){}
 parts.length=0;
 UI.updateLevelLen(level.len)}
 function respawn(){const cp=G.practice&&G.cp.length?G.cp[G.cp.length-1]:null;
