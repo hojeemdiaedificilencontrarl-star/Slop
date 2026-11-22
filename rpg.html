@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v16</title>
+<title>Rhythmic Precision v17</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +85,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v16</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v17</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -456,9 +456,9 @@ if(taps>0&&P.onGround){taps=0;spiderFlip()}}
 /* orbes */
 if(taps>0||wasHeld){for(const o of G.level.obj){
 if(o.k!=='ring'||P.used.has(o))continue;
-if(Math.abs(o.x+.5-P.x)>2.2)continue;
+if(Math.abs(o.x+.5-P.x)>3.2)continue;
 const dx=P.x-(o.x+.5),dy=(P.y+P.h/2)-(o.y+.5);
-if(dx*dx+dy*dy<2.6){P.used.add(o);taps=0;
+if(dx*dx+dy*dy<4.5){P.used.add(o);taps=0;
 if(o.t==='y')P.vy=JUMP*1.12*P.grav;
 else if(o.t==='p')P.vy=JUMP*.85*P.grav;
 else if(o.t==='r')P.vy=JUMP*1.5*P.grav;
@@ -517,10 +517,10 @@ const grad=ctx.createLinearGradient(0,0,0,VH);grad.addColorStop(0,th[0]);grad.ad
 ctx.fillStyle=grad;ctx.fillRect(0,0,VW,VH);
 if(LAND){ctx.save();ctx.translate(VW,0);ctx.rotate(Math.PI/2)}
 if(!G.running){if(LAND)ctx.restore();return}
-const Z=Math.min(VH/13.5,VW/10);
+const Z=Math.min(VH/15.5,VW/10);
 const shX=G.shake>0?(Math.random()-.5)*G.shake*12:0,shY=G.shake>0?(Math.random()-.5)*G.shake*12:0;
 if(G.shake>0)G.shake=Math.max(0,G.shake-.025);
-cam.x+=(P.x-(VW*.32/Z)-cam.x)*.2;
+cam.x+=(P.x-(VW*.28/Z)-cam.x)*.2;
 let ty=P.y-4.5;ty=Math.max(-1.4,Math.min(ty,CEIL-8));
 cam.y+=(ty-cam.y)*.12;
 const X=x=>(x-cam.x)*Z+shX,Y=y=>VH-(y-cam.y)*Z+shY;
