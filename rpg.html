@@ -25,10 +25,10 @@ canvas{display:block}
 #hud{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;pointer-events:none;z-index:5}
 .hpill{background:rgba(10,12,26,.66);border:1px solid rgba(148,163,184,.25);border-radius:12px;padding:6px 12px;font-weight:700;font-size:.95rem;backdrop-filter:blur(4px)}
 #percent{font-size:1.25rem;color:#4ade80;min-width:88px;text-align:center}
-#beatBar{position:fixed;top:56px;left:50%;transform:translateX(-50%);width:160px;height:6px;border-radius:4px;background:rgba(148,163,184,.18);z-index:5;pointer-events:none}
-#beatDot{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:#22d3ee;box-shadow:0 0 12px #22d3ee;left:0}
 #pauseBtn{position:fixed;top:10px;right:12px;z-index:6;width:44px;height:44px;border-radius:12px;background:rgba(10,12,26,.66);border:1px solid rgba(148,163,184,.3);color:#fff;font-size:1.1rem;display:none;align-items:center;justify-content:center}
 #cpBtn{position:fixed;bottom:14px;right:14px;z-index:6;width:56px;height:56px;border-radius:50%;background:rgba(250,204,21,.9);border:none;font-size:1.4rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+#rotateHint{position:fixed;top:0;left:0;right:0;bottom:0;z-index:7;background:rgba(7,7,14,.85);display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-size:1.1rem;color:#8892b0;text-align:center;pointer-events:none}
+@media (orientation:portrait){#gameWrap.on #rotateHint{display:flex}}
 #practiceTag{position:fixed;bottom:14px;left:14px;z-index:6;background:rgba(250,204,21,.9);color:#325;border-radius:10px;padding:6px 12px;font-weight:800;font-size:.8rem;display:none}
 #lvlList{display:flex;flex-direction:column;gap:10px;width:100%;max-height:56vh;overflow-y:auto}
 .lvlCard{width:min(92vw,420px);background:#131a2a;border:1px solid #263150;border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
@@ -72,10 +72,10 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
     <div class="hpill" id="attempt">Tentativa 1</div>
     <div class="hpill" id="percent">0%</div>
   </div>
-  <div id="beatBar"><div id="beatDot"></div></div>
   <button id="pauseBtn">⏸</button>
   <button id="cpBtn">🚩</button>
   <div id="practiceTag">PRÁTICA</div>
+  <div id="rotateHint">🔄 Deite o celular pra jogar melhor</div>
 </div>
 
 <div class="screen" id="scMenu">
@@ -446,9 +446,9 @@ if(taps>0&&P.onGround){taps=0;spiderFlip()}}
 /* orbes */
 if(taps>0||wasHeld){for(const o of G.level.obj){
 if(o.k!=='ring'||P.used.has(o))continue;
-if(Math.abs(o.x+.5-P.x)>1.5)continue;
+if(Math.abs(o.x+.5-P.x)>2.2)continue;
 const dx=P.x-(o.x+.5),dy=(P.y+P.h/2)-(o.y+.5);
-if(dx*dx+dy*dy<1.3){P.used.add(o);taps=0;
+if(dx*dx+dy*dy<2.6){P.used.add(o);taps=0;
 if(o.t==='y')P.vy=JUMP*1.12*P.grav;
 else if(o.t==='p')P.vy=JUMP*.85*P.grav;
 else if(o.t==='r')P.vy=JUMP*1.5*P.grav;
@@ -456,15 +456,15 @@ else if(o.t==='b'){P.grav*=-1;P.vy=JUMP*.4*P.grav}
 P.onGround=false;AudioSys.sfx('orb');burst(o.x+.5,o.y+.5,'#facc15',12);break}}}
 /* pads */
 for(const o of G.level.obj){if(o.k!=='pad'||P.used.has(o))continue;
-if(Math.abs(o.x+.5-P.x)>1.5)continue;
+if(Math.abs(o.x+.5-P.x)>1.8)continue;
 if(P.x+P.w/2>o.x&&P.x-P.w/2<o.x+1&&P.y<o.y+.35&&P.y+P.h>o.y){
 P.used.add(o);
 if(o.t==='y')P.vy=JUMP*1.32*P.grav;else if(o.t==='p')P.vy=JUMP*.95*P.grav;else{P.grav*=-1;P.vy=JUMP*.35*P.grav}
 P.onGround=false;AudioSys.sfx('pad');burst(o.x+.5,o.y+.3,'#fb923c',12)}}
 /* portais */
 for(const o of G.level.obj){if(o.k!=='portal'||P.used.has(o))continue;
-if(Math.abs(o.x+.5-P.x)>2)continue;
-if(P.x+P.w/2>o.x-.2&&P.x-P.w/2<o.x+1.2&&P.y<o.y+1.7&&P.y+P.h>o.y-1.7){
+if(Math.abs(o.x+.5-P.x)>2.5)continue;
+if(P.x+P.w/2>o.x-.4&&P.x-P.w/2<o.x+1.4&&P.y<o.y+2.6&&P.y+P.h>o.y-2.6){
 P.used.add(o);portalEffect(o);break}}
 /* moedas */
 for(const o of G.level.obj){if(o.k!=='coin'||P.takeCoins.has(o))continue;
