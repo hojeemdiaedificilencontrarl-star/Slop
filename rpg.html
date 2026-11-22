@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v13</title>
+<title>Rhythmic Precision v14</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +85,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v13</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v14</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -420,7 +420,8 @@ else if(P.grav<0&&P.vy>=-0.0001&&prevT<=r.y+.3&&P.y+P.h>r.y){
 P.y=r.y-P.h;P.vy=0;landed=true}
 else if(P.grav<0&&P.vy<0&&prevB>=r.rTop-.3&&P.y<r.rTop){
 if(FLIGHT[P.mode]){P.y=r.rTop;P.vy=0}else{die();return}}}
-if(landed&&!P.onGround)burst(P.x,P.y,P.grav>0?0:0,0);
+if(landed&&!P.onGround){burst(P.x,P.y,'#94a3b8',4);
+if(P.mode==='cube'||P.mode==='robot'){const q=Math.PI/2;P.rot=Math.round(P.rot/q)*q}}
 P.onGround=landed;
 /* buraco / limites */
 if(!groundSolidAt(P.x-0.5,P.x+0.5)){
@@ -486,7 +487,7 @@ if(Math.abs(o.x+.5-P.x)>1.6)continue;
 const cx=o.x+.5;
 if(P.x+P.w/2>cx-.24&&P.x-P.w/2<cx+.24&&P.y+P.h>o.y+.15&&P.y<o.y+.78){die();return}}
 /* rotação */
-if(P.mode==='cube'||P.mode==='robot'){if(!P.onGround)P.rot+=P.grav*PHYS_DT*speed*1.4}
+if(P.mode==='cube'||P.mode==='robot'){if(!P.onGround)P.rot+=P.grav*PHYS_DT*6.5}
 else if(P.mode==='ball')P.rot+=PHYS_DT*speed*1.1*P.grav;
 if(P.mode==='wave'){P.trail.push({x:P.x,y:P.y+P.h/2});if(P.trail.length>140)P.trail.shift()}
 G.percent=P.x/G.level.len*100}
