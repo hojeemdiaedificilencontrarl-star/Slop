@@ -29,6 +29,7 @@
     border: 3px solid #4ade80;
     border-radius: 8px;
     box-shadow: 0 0 24px rgba(74, 222, 128, .25);
+    touch-action: none;
   }
   #overlay {
     position: absolute;
@@ -75,7 +76,7 @@
   </div>
 </div>
 
-<p id="hint">Setas / WASD para mover • Espaço para pausar</p>
+<p id="hint">Setas / WASD para mover • Espaço para pausar • 📱 deslize o dedo no tabuleiro</p>
 
 <script>
 const canvas = document.getElementById('game');
@@ -213,6 +214,24 @@ document.addEventListener('keydown', e => {
 startBtn.addEventListener('click', () => {
   if (state === 'paused') pause();
   else start();
+});
+
+let touchX = 0, touchY = 0;
+canvas.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  touchX = t.clientX;
+  touchY = t.clientY;
+}, {passive: true});
+canvas.addEventListener('touchmove', e => e.preventDefault(), {passive: false});
+canvas.addEventListener('touchend', e => {
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchX;
+  const dy = t.clientY - touchY;
+  if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+  let m;
+  if (Math.abs(dx) > Math.abs(dy)) m = {x: dx > 0 ? 1 : -1, y: 0};
+  else m = {x: 0, y: dy > 0 ? 1 : -1};
+  if (m.x !== -dir.x || m.y !== -dir.y) nextDir = m;
 });
 
 reset();
