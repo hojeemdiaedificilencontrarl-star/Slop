@@ -499,7 +499,7 @@ const th=G.level.theme;
 const grad=ctx.createLinearGradient(0,0,0,VH);grad.addColorStop(0,th[0]);grad.addColorStop(1,th[1]);
 ctx.fillStyle=grad;ctx.fillRect(0,0,VW,VH);
 if(LAND){ctx.save();ctx.translate(VW,0);ctx.rotate(Math.PI/2)}
-if(!G.running){if(LAND)ctx.restore();return;
+if(!G.running){if(LAND)ctx.restore();return}
 const Z=Math.min(VH/11.5,VW/9.5);
 const shX=G.shake>0?(Math.random()-.5)*G.shake*12:0,shY=G.shake>0?(Math.random()-.5)*G.shake*12:0;
 if(G.shake>0)G.shake=Math.max(0,G.shake-.025);
