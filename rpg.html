@@ -561,7 +561,7 @@ else if(o.k==='mplat'){const py=o.y+Math.sin(G.time*o.sp+o.ph)*o.a;
 D.block(X(o.x),Y(py+.5),o.w*Z,.5*Z,'#22d3ee')}
 else if(o.k==='spike'){const sx=X(o.x+.5),sy=Y(o.y);
 ctx.fillStyle='#1b2340';ctx.strokeStyle='#f87171';ctx.lineWidth=2.5;
-ctx.beginPath();ctx.moveTo(sx-Z*.46,sy);ctx.lineTo(sx,sy+Z);ctx.lineTo(sx+Z*.46,sy);ctx.closePath();ctx.fill();ctx.stroke()}
+ctx.beginPath();ctx.moveTo(sx-Z*.46,sy);ctx.lineTo(sx,sy-Z);ctx.lineTo(sx+Z*.46,sy);ctx.closePath();ctx.fill();ctx.stroke()}
 else if(o.k==='pad'){const x=X(o.x+.5),y=Y(o.y+.08);
 ctx.fillStyle=o.t==='y'?'#facc15':o.t==='p'?'#f472b6':'#22d3ee';
 ctx.beginPath();ctx.ellipse(x,y,Z*.48,Z*.14,0,0,7);ctx.fill()}
@@ -748,7 +748,7 @@ ectx.globalAlpha=.35;ectx.strokeStyle='#22d3ee';
 ectx.strokeRect(X(o.x),Y(o.y+o.a+.5),o.w*Z,(o.a*2+.5)*Z);ectx.globalAlpha=1}
 else if(o.k==='spike'){const sx=X(o.x+.5),sy=Y(o.y);
 ectx.fillStyle='#1b2340';ectx.strokeStyle='#f87171';
-ectx.beginPath();ectx.moveTo(sx-Z*.46,sy);ectx.lineTo(sx,sy+Z);ectx.lineTo(sx+Z*.46,sy);ectx.closePath();ectx.fill();ectx.stroke()}
+ectx.beginPath();ectx.moveTo(sx-Z*.46,sy);ectx.lineTo(sx,sy-Z);ectx.lineTo(sx+Z*.46,sy);ectx.closePath();ectx.fill();ectx.stroke()}
 else if(o.k==='pad'){ectx.fillStyle=o.t==='y'?'#facc15':'#f472b6';
 ectx.beginPath();ectx.ellipse(X(o.x+.5),Y(o.y+.08),Z*.48,Z*.14,0,0,7);ectx.fill()}
 else if(o.k==='ring'){ectx.strokeStyle=o.t==='y'?'#facc15':o.t==='r'?'#f87171':'#22d3ee';
