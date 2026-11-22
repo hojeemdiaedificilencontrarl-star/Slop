@@ -159,6 +159,14 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
 'use strict';
 /* ================= STORAGE & SAVE ================= */
 const $=id=>document.getElementById(id);
+addEventListener('error',ev=>{
+let b=document.getElementById('errBanner');
+if(!b){b=document.createElement('div');
+b.id='errBanner';
+b.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99;background:#7f1d1d;color:#fecaca;font-family:monospace;font-size:11px;padding:10px;white-space:pre-wrap';
+document.body.appendChild(b)}
+b.textContent='ERRO: '+ev.message+' (linha '+ev.lineno+')';
+});
 const store=(()=>{let ok=true;try{localStorage.getItem('x')}catch(e){ok=false}
 const mem={};return{
 get(k,d){try{const v=ok?localStorage.getItem(k):mem[k];return v==null?d:JSON.parse(v)}catch(e){return d}},
