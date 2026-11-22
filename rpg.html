@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v11</title>
+<title>Rhythmic Precision v12</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -84,7 +84,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v11</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v12</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -728,7 +728,7 @@ e.preventDefault();Input.press()};
 const up=()=>{Input.release()};
 const surface=$('gameWrap');
 surface.addEventListener('pointerdown',down,{passive:false});
-surface.addEventListener('touchstart',e=>{if(!G.running||paused)return;e.preventDefault();Input.press()},{passive:false});
+surface.addEventListener('touchstart',e=>{if(!G.running||paused)return;if(e.target&&e.target.closest&&e.target.closest('#pauseBtn,#cpBtn'))return;e.preventDefault();Input.press()},{passive:false});
 addEventListener('pointerup',up,{passive:true});
 addEventListener('pointercancel',up,{passive:true});
 addEventListener('keydown',e=>{if(e.repeat)return;
@@ -758,7 +758,8 @@ $('sMusic').value=save.set.music;$('sSfx').value=save.set.sfx;$('sCal').value=sa
 $('sMusic').oninput=e=>{save.set.music=+e.target.value;persist();AudioSys.applyVol()};
 $('sSfx').oninput=e=>{save.set.sfx=+e.target.value;persist();AudioSys.applyVol()};
 $('sCal').oninput=e=>{save.set.cal=+e.target.value;persist()};
-$('sReset').onclick=()=>{if(confirm('Apagar TODO o progresso?')){save=structuredClone(defaultSave);persist();toast('Progresso apagado')}};
+$('sReset').onclick=()=>{if(confirm('Apagar TODO o progresso?')){save=structuredClone(defaultSave);persist();AudioSys.applyVol();
+$('sMusic').value=save.set.music;$('sSfx').value=save.set.sfx;$('sCal').value=save.set.cal;toast('Progresso apagado')}};
 (()=>{const pal=$('palette');COLORS.forEach((c,i)=>{const d=document.createElement('div');
 d.className='sw'+(save.set.color===i?' sel':'');d.style.background=c;
 d.onclick=()=>{save.set.color=i;persist();
@@ -824,12 +825,16 @@ let drag=null;
 edCv.addEventListener('pointerdown',e=>{edCv.setPointerCapture(e.pointerId);
 const w=edToWorld(e);
 if(ED.tool==='pan'){drag={sx:e.clientX,sy:e.clientY,cx:ED.cam,cy:ED.camY}}
-else if(ED.tool==='erase'){const i=edObjAt(w.x,w.y);
-if(i>=0){edSnapshot();ED.obj.splice(i,1);edRender()}}
+else if(ED.tool==='erase'){edSnapshot();let hit=false;
+const i=edObjAt(w.x,w.y);
+if(i>=0){ED.obj.splice(i,1);hit=true}
+const pi=ED.pits.findIndex(p=>w.x>=p.a&&w.x<=p.b);
+if(pi>=0){ED.pits.splice(pi,1);hit=true}
+if(!hit)ED.undo.pop();else edRender()}
 else if(ED.tool==='place'){edSnapshot();edPlace(w)}
 },{passive:true});
 function edPlace(w){const x=Math.floor(w.x),y=Math.max(0,Math.round(w.y)),T=ED.type;
-if(T==='pit'){edSnapshot();if(!ED.pits.some(p=>p.a===x&&p.b===x+2))ED.pits.push({a:x,b:x+2,k:'pit'});return}
+if(T==='pit'){if(!ED.pits.some(p=>p.a===x&&p.b===x+2)){edSnapshot();ED.pits.push({a:x,b:x+2,k:'pit'})}return}
 const m={'padp':{k:'pad',t:'p'},'ringy':{k:'ring',t:'y'},'ringb':{k:'ring',t:'b'},'ringr':{k:'ring',t:'r'}};
 let o=null;
 if(T==='block')o={k:'block',x,y,w:1,h:1};
@@ -850,6 +855,7 @@ close(){$('editor').style.display='none';cancelAnimationFrame(edRaf)},
 resume(){$( 'editor').style.display='block',edResize(),edLoop()},
 test(){$('editor').style.display='none';
 let mx=10;for(const o of ED.obj)mx=Math.max(mx,o.x+(o.w||1));
+for(const p of ED.pits)mx=Math.max(mx,p.b);
 const lvl={id:'tmp',name:'Teste',bpm:ED.bpm,diff:2,pat:0,obj:JSON.parse(JSON.stringify(ED.obj)),pits:JSON.parse(JSON.stringify(ED.pits)),len:mx+12,theme:['#10102a','#1c1348','#4ade80']};
 startLevel(lvl,'editor')}};
 edCv.addEventListener('pointermove',e=>{if(!drag)return;
@@ -880,6 +886,7 @@ $('edSave').onclick=()=>{
 const name=prompt('Nome do nível:','Meu nível '+(save.customs.length+1));
 if(!name)return;
 let mx=10;for(const o of ED.obj)mx=Math.max(mx,o.x+(o.w||1));
+for(const p of ED.pits)mx=Math.max(mx,p.b);
 save.customs.push({name,obj:JSON.parse(JSON.stringify(ED.obj)),pits:JSON.parse(JSON.stringify(ED.pits)),bpm:ED.bpm,diff:2,len:mx+12,theme:['#10102a','#1c1348','#4ade80'],pat:0});
 persist();checkAch();toast('Nível salvo!');
 Editor.close();buildLevelList();showScreen('scSelect')};
