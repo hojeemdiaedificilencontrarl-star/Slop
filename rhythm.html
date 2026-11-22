@@ -27,8 +27,7 @@ canvas{display:block}
 #percent{font-size:1.25rem;color:#4ade80;min-width:88px;text-align:center}
 #pauseBtn{position:fixed;top:10px;right:12px;z-index:6;width:44px;height:44px;border-radius:12px;background:rgba(10,12,26,.66);border:1px solid rgba(148,163,184,.3);color:#fff;font-size:1.1rem;display:none;align-items:center;justify-content:center}
 #cpBtn{position:fixed;bottom:14px;right:14px;z-index:6;width:56px;height:56px;border-radius:50%;background:rgba(250,204,21,.9);border:none;font-size:1.4rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.4)}
-#rotateHint{position:fixed;top:0;left:0;right:0;bottom:0;z-index:7;background:rgba(7,7,14,.85);display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-size:1.1rem;color:#8892b0;text-align:center;pointer-events:none}
-@media (orientation:portrait){#gameWrap.on #rotateHint{display:flex}}
+@media (orientation:portrait){#gameWrap.on{width:100vh;height:100vw;transform:translateX(100vw) rotate(90deg);transform-origin:top left}}
 #practiceTag{position:fixed;bottom:14px;left:14px;z-index:6;background:rgba(250,204,21,.9);color:#325;border-radius:10px;padding:6px 12px;font-weight:800;font-size:.8rem;display:none}
 #lvlList{display:flex;flex-direction:column;gap:10px;width:100%;max-height:56vh;overflow-y:auto}
 .lvlCard{width:min(92vw,420px);background:#131a2a;border:1px solid #263150;border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
@@ -75,7 +74,6 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button id="pauseBtn">⏸</button>
   <button id="cpBtn">🚩</button>
   <div id="practiceTag">PRÁTICA</div>
-  <div id="rotateHint">🔄 Deite o celular pra jogar melhor</div>
 </div>
 
 <div class="screen" id="scMenu">
@@ -487,9 +485,11 @@ const parts=[];
 function burst(x,y,color,n){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*14,vy:(Math.random()-.3)*14,life:.4+Math.random()*.4,t:0,c:color,s:.1+Math.random()*.14})}
 /* ================= RENDER ================= */
 const cv=$('cv'),ctx=cv.getContext('2d');
-let VW=0,VH=0,DPR=1;
-function resize(){DPR=Math.min(2,devicePixelRatio||1);VW=innerWidth;VH=innerHeight;
-cv.width=VW*DPR;cv.height=VH*DPR;cv.style.width=VW+'px';cv.style.height=VH+'px';
+let VW=0,VH=0,DPR=1,LAND=false;
+function resize(){DPR=Math.min(2,devicePixelRatio||1);
+const SW=innerWidth,SH=innerHeight;LAND=SH>SW;
+VW=LAND?SH:SW;VH=LAND?SW:SH;
+cv.width=SW*DPR;cv.height=SH*DPR;cv.style.width=SW+'px';cv.style.height=SH+'px';
 ctx.setTransform(DPR,0,0,DPR,0,0)}
 addEventListener('resize',resize);resize();
 const cam={x:0,y:0};
@@ -498,7 +498,8 @@ if(!G.level)return;
 const th=G.level.theme;
 const grad=ctx.createLinearGradient(0,0,0,VH);grad.addColorStop(0,th[0]);grad.addColorStop(1,th[1]);
 ctx.fillStyle=grad;ctx.fillRect(0,0,VW,VH);
-if(!G.running)return;
+if(LAND){ctx.save();ctx.translate(VW,0);ctx.rotate(Math.PI/2)}
+if(!G.running){if(LAND)ctx.restore();return;
 const Z=Math.min(VH/11.5,VW/9.5);
 const shX=G.shake>0?(Math.random()-.5)*G.shake*12:0,shY=G.shake>0?(Math.random()-.5)*G.shake*12:0;
 if(G.shake>0)G.shake=Math.max(0,G.shake-.025);
@@ -554,7 +555,7 @@ ctx.globalAlpha=1;
 const ex=X(G.level.len);
 if(ex<VW+40){ctx.globalAlpha=.5+.35*Math.sin(G.time*6);
 ctx.fillStyle='#4ade80';ctx.fillRect(ex,0,7,VH);ctx.globalAlpha=1}
-UI.percent(Math.floor(G.percent))}
+UI.percent(Math.floor(G.percent));if(LAND)ctx.restore()}
 function drawObj(o,X,Y,Z,pulse){
 if(o.k==='block')D.block(X(o.x),Y(o.y+o.h),o.w*Z,o.h*Z,G.level.theme[2]);
 else if(o.k==='mplat'){const py=o.y+Math.sin(G.time*o.sp+o.ph)*o.a;
