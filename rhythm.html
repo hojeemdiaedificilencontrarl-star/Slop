@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v15</title>
+<title>Rhythmic Precision v16</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +85,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v15</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v16</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -241,7 +241,7 @@ const Input={held:false,taps:0,press(){AudioSys.ensure();if(this.held)return;thi
 /* ================= LEVEL BUILDER ================= */
 function lv(id,name,bpm,diff,pat,theme,fn){const obj=[],pits=[];const a={
 block:(x,y,w=1,h=1)=>obj.push({k:'block',x,y,w,h}),
-s:(x,y=0,n=1)=>{for(let i=0;i<n;i++)obj.push({k:'spike',x:x+i,y})},
+s:(x,y=0,n=1)=>{for(let i=0;i<Math.min(n,2);i++)obj.push({k:'spike',x:x+i,y})},
 pad:(x,y,t='y')=>obj.push({k:'pad',x,y,t}),
 ring:(x,y,t='y')=>obj.push({k:'ring',x,y}),
 portal:(x,y,t)=>obj.push({k:'portal',x,y,t}),
@@ -490,7 +490,7 @@ if(dx*dx+dy*dy<rr*rr){die();return}}
 for(const o of G.level.obj){if(o.k!=='spike')continue;
 if(Math.abs(o.x+.5-P.x)>1.6)continue;
 const cx=o.x+.5;
-if(P.x+P.w/2>cx-.24&&P.x-P.w/2<cx+.24&&P.y+P.h>o.y+.15&&P.y<o.y+.78){die();return}}
+if(P.x+P.w/2>cx-.18&&P.x-P.w/2<cx+.18&&P.y+P.h>o.y+.22&&P.y<o.y+.66){die();return}}
 /* rotação */
 if(P.mode==='cube'||P.mode==='robot'){if(!P.onGround)P.rot+=P.grav*PHYS_DT*6.5}
 else if(P.mode==='ball')P.rot+=PHYS_DT*speed*1.1*P.grav;
