@@ -14,14 +14,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    gap: 16px;
+    min-height: 100dvh;
+    gap: 10px;
+    padding: 16px 12px;
+    overflow: hidden;
   }
-  h1 { color: #4ade80; letter-spacing: 2px; }
+  h1 { color: #4ade80; letter-spacing: 2px; font-size: clamp(1.1rem, 5.5vw, 1.8rem); }
   #hud {
     display: flex;
-    gap: 32px;
-    font-size: 1.1rem;
+    gap: 24px;
+    font-size: clamp(.95rem, 4vw, 1.1rem);
+    flex-wrap: wrap;
+    justify-content: center;
   }
   #hud span { color: #facc15; font-weight: bold; }
   canvas {
@@ -30,20 +34,22 @@
     border-radius: 8px;
     box-shadow: 0 0 24px rgba(74, 222, 128, .25);
     touch-action: none;
+    width: min(92vw, 60dvh, 400px);
+    height: auto;
   }
   #overlay {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    background: rgba(0,0,0,.75);
-    padding: 32px 48px;
+    gap: 10px;
+    background: rgba(0,0,0,.78);
+    padding: 20px 28px;
     border-radius: 12px;
     text-align: center;
+    max-width: 88%;
   }
   #overlay.hidden { display: none; }
-  #overlay p { font-size: 1rem; color: #aaa; }
   button {
     font-family: inherit;
     font-size: 1rem;
@@ -54,9 +60,10 @@
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   button:hover { background: #86efac; }
-  #hint { font-size: .85rem; color: #666; }
 </style>
 </head>
 <body>
@@ -76,8 +83,6 @@
   </div>
 </div>
 
-<p id="hint">Setas / WASD para mover • Espaço para pausar • 📱 deslize o dedo no tabuleiro</p>
-
 <script>
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -91,6 +96,8 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlayTitle');
 const overlayText = document.getElementById('overlayText');
 const startBtn = document.getElementById('startBtn');
+
+const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
 let snake, dir, nextDir, food, score, best, speed, timer, state;
 let storage;
@@ -193,7 +200,7 @@ function pause() {
     clearInterval(timer);
     state = 'paused';
     overlayTitle.textContent = 'Pausado';
-    overlayText.textContent = 'Pressione espaço para continuar';
+    overlayText.textContent = isTouch ? 'Toque em Continuar' : 'Pressione espaço';
     startBtn.textContent = 'Continuar';
     overlay.classList.remove('hidden');
   } else if (state === 'paused') {
@@ -246,6 +253,9 @@ canvas.addEventListener('touchend', e => {
 });
 
 reset();
+overlayText.textContent = isTouch
+  ? 'Deslize o dedo no tabuleiro para mover'
+  : 'Use as setas ou WASD para mover • Espaço pausa';
 state = 'idle';
 draw();
 </script>
