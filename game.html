@@ -93,7 +93,18 @@ const overlayText = document.getElementById('overlayText');
 const startBtn = document.getElementById('startBtn');
 
 let snake, dir, nextDir, food, score, best, speed, timer, state;
-best = +(localStorage.getItem('snakeBest') || 0);
+let storage;
+try {
+  storage = window.localStorage;
+  storage.getItem('snakeBest');
+} catch (err) {
+  storage = {
+    getItem(k) { return this.data[k] ?? null; },
+    setItem(k, v) { this.data[k] = v; },
+    data: {}
+  };
+}
+best = +(storage.getItem('snakeBest') || 0);
 bestEl.textContent = best;
 
 function reset() {
@@ -145,7 +156,7 @@ function step() {
     if (score > best) {
       best = score;
       bestEl.textContent = best;
-      localStorage.setItem('snakeBest', best);
+      storage.setItem('snakeBest', best);
     }
     spawnFood();
     if (speed > 50) {
