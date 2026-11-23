@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rhythmic Precision v19</title>
+<title>Rhythmic Precision v20</title>
 <meta http-equiv="cache-control" content="no-store,max-age=0">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +85,7 @@ input[type=text]{background:#0d1424;border:1px solid #334166;color:#fff;border-r
   <button class="btn sec" id="mEditor">🛠 EDITOR DE NÍVEIS</button>
   <button class="btn sec" id="mStats">📊 ESTATÍSTICAS</button>
   <button class="btn sec" id="mSettings">⚙ AJUSTES</button>
-  <div class="small">Toque na tela para pular • Funciona offline • v19</div>
+  <div class="small">Toque na tela para pular • Funciona offline • v20</div>
 </div>
 
 <div class="screen" id="scSelect" style="display:none">
@@ -256,46 +256,40 @@ return{id,name,bpm,diff,pat,theme,obj,pits,len:mx+12}}
 /* ================= NÍVEIS ================= */
 const LEVELS=[
 lv('l0','Neon Dash',128,1,0,['#10102a','#1c1348','#4ade80'],a=>{
-a.block(7,0,1,1);a.s(12,0,2);a.block(17,0,2,1);a.s(21);
-a.ring(26,3,'y');a.s(30,0,2);a.pad(34,0,'y');a.s(38,0,3);
-a.block(43,0,1,2);a.s(46);a.coin(50,4);a.ring(50,3.2,'y');
-a.s(54,0,4);a.block(62,0,1,1);a.block(63,1,1,1);a.s(66,0,2);
-a.portal(72,0,'ship');a.block(72,8,32,2);a.block(80,3,8,1);a.coin(84,6.5);a.s(92);
-a.block(97,0,3,1);a.portal(104,0,'cube');a.s(109,0,2);a.block(114,1,2,1);
-a.pad(119,0,'y');a.s(123,0,2);a.block(128,0,1,1);a.block(131,1,1,1);a.block(134,2,1,1);
-a.s(139);a.ring(144,4,'y');a.s(148,0,3);a.s(155,0,2);a.block(160,3,4,1);a.coin(162,2.2);
-a.s(167,0,4);a.ring(176,3,'y');a.s(180);a.s(184,0,2)}),
+a.s(12,0,2);a.block(20,0,2,1);a.s(27,0,2);
+a.pad(33,0,'y');a.s(41,0,2);a.block(48,0,1,2);a.s(56,0,2);
+a.block(63,0,1,1);a.block(66,1,1,1);a.s(71,0,2);
+a.portal(78,0,'ship');a.block(78,8,30,2);a.block(85,3,6,1);a.coin(90,6);a.s(96,0);a.saw(102,5,1.3);
+a.portal(108,0,'cube');a.s(114,0,2);a.block(120,0,1,2);a.s(127,0,2);
+a.block(134,0,1,1);a.block(137,1,1,1);a.s(142,0,2);a.ring(148,4,'y');
+a.s(155,0,2);a.block(161,0,2,1);a.s(167,0,2);a.coin(172,2.2);a.s(178,0,2)}),
 lv('l1','Gravity Theory',140,2,1,['#0e1030','#241b52','#a78bfa'],a=>{
-a.s(10,0,2);a.block(15,0,2,1);a.portal(20,0,'ball');
-a.block(26,4,10,1);a.block(30,0,1,2);a.s(34,0,3);a.coin(37,5);
-a.block(44,4,8,1);a.portal(56,1,'cube');a.s(60,0,2);a.block(65,0,1,2);a.block(68,2,1,1);
-a.ring(73,4,'y');a.s(77,0,3);a.portal(84,0,'ufo');
-a.block(84,8,28,2);a.block(90,5,6,1);a.coin(93,3);a.s(99,0,2);a.saw(106,3.4,1.3);
-a.portal(112,0,'cube');a.s(117,0,4);a.block(124,0,2,1);
-a.portal(129,0,'wave');a.block(136,6,8,1);a.block(136,0,2,2);a.coin(140,4);a.block(148,0,1,3);
-a.portal(156,0,'cube');a.s(160,0,2);a.pad(165,0,'y');a.s(169,0,3);
-a.block(176,1,3,2);a.block(129,8,27,2);a.ring(183,5,'y');a.s(187,0,2);a.portal(194,0,'ball');
-a.block(197,5,12,1);a.s(206,0,2)}),
+a.s(10,0,2);a.block(17,0,2,1);a.portal(24,0,'ball');
+a.block(30,4,10,1);a.block(34,0,1,2);a.s(40,0,2);a.coin(44,5);
+a.block(50,4,8,1);a.portal(62,0,'cube');a.s(66,0,2);a.block(72,0,1,2);a.s(78,0,2);
+a.ring(84,4,'y');a.s(90,0,2);a.portal(96,0,'ufo');
+a.block(96,8,24,2);a.block(102,5,6,1);a.coin(105,3);a.s(112,0,2);a.coin(120,3);
+a.portal(128,0,'cube');a.s(134,0,2);a.block(140,0,2,1);
+a.portal(146,0,'wave');a.block(146,8,26,2);a.block(153,6,8,1);a.block(153,0,2,2);a.coin(157,4);a.block(165,0,1,3);
+a.portal(173,0,'cube');a.s(178,0,2);a.pad(184,0,'y');a.ring(187,4,'y');a.s(190,0,2);
+a.block(196,1,3,2);a.s(210,0,2);a.portal(216,0,'ball');
+a.block(218,5,12,1);a.s(228,0,2)}),
 lv('l2','Hyperflux',150,3,2,['#180a1e','#3a1030','#f472b6'],a=>{
-a.portal(6,0,'robot');a.s(12,0,3);a.block(18,3,1,1);a.block(22,4.6,1,1);
-a.s(27,0,2);a.coin(31,2);a.block(30,3,2,1);
-a.portal(36,0,'spider');a.block(42,5,6,1);a.s(50,0,2);a.block(56,6,6,1);
-a.portal(64,0,'cube');a.s(68,0,4);a.pad(75,0,'y');a.s(79,0,3);a.ring(85,5,'y');a.block(90,0,1,3);
-a.portal(96,0,'ship');a.block(96,8,42,2);a.saw(103,5,1.3);a.saw(112,3,1.6);a.coin(118,7);a.block(122,2,4,1);a.block(130,5,4,1);
-a.portal(138,0,'wave');a.block(148,8,16,2);a.block(144,4,6,1);a.block(154,2,6,1);a.coin(158,7);a.block(164,5,4,1);
-a.portal(172,0,'ufo');a.block(172,8,18,2);a.s(178,0,2);a.saw(184,4.2,1.3);
-a.portal(190,0,'cube');a.s(195,0,4);a.pad(202,0,'y');a.s(206,0,4);
-a.ring(214,4,'y');a.s(218,0,2);a.s(223,0,3);a.coin(228,3);a.s(231)}),
+a.portal(6,0,'robot');a.s(12,0,2);a.block(19,3,1,1);a.s(26,0,2);a.block(30,3,2,1);a.coin(32,2);
+a.portal(38,0,'spider');a.block(44,5,6,1);a.s(52,0,2);a.block(58,6,6,1);a.portal(70,0,'cube');
+a.s(80,0,2);a.pad(87,0,'y');a.s(96,0,2);a.ring(100,4,'y');a.block(100,0,1,2);
+a.portal(106,0,'ship');a.block(106,8,42,2);a.saw(113,5,1.3);a.saw(122,3,1.6);a.coin(128,7);a.block(132,2,4,1);a.block(140,5,4,1);
+a.portal(148,0,'wave');a.block(158,8,16,2);a.block(154,4,6,1);a.block(164,2,6,1);a.coin(168,7);a.block(174,5,4,1);
+a.portal(180,0,'ufo');a.block(180,8,18,2);a.s(186,0,2);a.saw(192,4.2,1.3);
+a.portal(198,0,'cube');a.s(203,0,2);a.pad(210,0,'y');a.s(217,0,2);a.ring(223,4,'y');a.s(229,0,2);a.s(236,0,2);a.coin(241,2);a.s(246,0,2)}),
 lv('l3','Vórtice Final',155,4,3,['#04121a','#052f3f','#22d3ee'],a=>{
-a.portal(5,0,'wave');a.block(10,5,3,1);a.block(16,1,3,1);a.block(22,6,3,1);a.coin(25,4);a.block(31,2,3,1);
-a.portal(36,0,'cube');a.s(41,0,3);a.block(47,2,1,1);a.ring(52,5,'y');
-a.s(56,0,4);a.pad(63,0,'y');a.s(67,0,3);a.block(74,3,2,1);
-a.portal(80,0,'ball');a.block(85,6,8,1);a.s(95,0,2);a.block(100,5,8,1);
-a.portal(112,0,'ufo');a.block(112,8,34,2);a.saw(119,4,1.3);a.s(124,0,2);a.saw(132,5,1.5);a.block(138,1,3,1);
-a.portal(146,0,'spider');a.block(152,6,6,1);a.block(161,0,2,2);a.s(166,0,2);
-a.portal(172,0,'ship');a.block(172,8,26,2);a.block(180,2,3,1);a.block(188,7,3,1);a.coin(193,4);
-a.portal(198,0,'cube');a.s(203,0,4);a.pad(211,0,'y');a.ring(216,6,'r');
-a.s(220,0,4);a.block(227,2,2,1);a.block(232,4,2,1);a.s(238,0,2);a.s(243,0,2);a.s(247)})];
+a.portal(5,0,'wave');a.block(5,8,32,2);a.block(10,5,3,1);a.block(16,2,3,1);a.coin(26,4);a.block(31,2,3,1);
+a.portal(36,0,'cube');a.s(45,0,2);a.block(51,2,1,1);a.pad(62,0,'y');a.ring(65,4,'y');a.s(68,0,2);
+a.portal(80,0,'ball');a.block(81,6,26,1);a.s(90,0,2);a.coin(96,3);
+a.portal(106,0,'ufo');a.block(106,8,40,2);a.s(118,0,2);a.coin(124,4);
+a.portal(142,0,'spider');a.block(150,7,19,1);a.s(152,0,2);a.s(160,0,2);a.coin(165,5);
+a.portal(168,0,'ship');a.block(168,8,26,2);a.block(177,2,3,1);a.block(184,7,3,1);a.coin(190,4);
+a.portal(198,0,'cube');a.s(206,0,2);a.pad(214,0,'y');a.ring(217,4,'y');a.s(220,0,2);a.s(227,0,2);a.coin(234,3);a.s(241,0,2);a.s(248,0,2);a.coin(254,2)})];
 /* ================= FÍSICA (timestep fixo) ================= */
 const PHYS_DT=1/240,SPEEDS={0.5:8.4,1:10.4,2:12.94,3:15.6};
 const GRAV=94,JUMP=24,VMAX=34,SHIP_ACC=62,SHIP_MAX=13.2,UFO_JUMP=25,CEIL=10;
